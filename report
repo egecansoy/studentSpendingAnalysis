@@ -1,0 +1,55 @@
+1. GİRİŞ
+Bu çalışma, üniversite öğrencilerinin finansal yapılarını, harcama alışkanlıklarını ve bütçe yönetim süreçlerini veri odaklı bir perspektifle incelemektedir. Analiz kapsamında öğrencilerin aylık gelirleri, aldıkları finansal destekler, akademik seviyeleri ve harcama kalemleri arasındaki etkileşimler sistematik olarak değerlendirilmiştir. Çalışmanın temel amacı, öğrenci ekonomisini şekillendiren mikro dinamikleri modellemek ve tüketim davranışlarının arkasındaki temel itici güçleri ortaya koymaktır.
+
+2. VERİ SETİ VE DEĞİŞKENLER
+Analiz, 1000 gözlemden oluşan homojen bir veri seti üzerinde yürütülmüştür.
+Veri seti içerisinde demografik (yaş, cinsiyet, bölüm, sınıf), finansal (aylık gelir, finansal destek, okul ücreti) ve harcama odaklı (barınma, gıda, ulaşım, kitap, teknoloji, eğlence, kişisel bakım, sağlık) değişkenler yer almaktadır. Veri setinde eksik değer bulunmamakta olup, tüm değişkenler istatistiksel analiz için uygun niteliktedir.
+
+3. METODOLOJİ
+Araştırmada aşağıdaki metodolojik adımlar izlenmiştir:
+•	Tanımlayıcı İstatistikler: Merkezi eğilim ve dağılım ölçüleri hesaplanmıştır.
+•	Aykırı Değer Analizi: IQR yöntemi ile veri setinin tutarlılığı doğrulanmıştır.
+•	Özellik Mühendisliği: Ekonomik gücü temsil eden “Efektif Gelir” (Gelir + Finansal Destek) ve “Toplam Harcama” değişkenleri türetilmiştir.
+•	Segmentasyon ve Kümeleme: Kantil tabanlı segmentasyon ve K-Means kümeleme ile doğal ekonomik gruplar belirlenmiştir.
+•	Oran Analizleri: Harcama/gelir oranları ve kategori bazlı dağılımlar incelenmiştir.
+•	Makine Öğrenmesi: Lineer regresyon ve Random Forest modelleri ile harcama tahmini yapılmış, model performansları karşılaştırılmıştır.
+•	Model Açıklanabilirliği: SHAP analizi ile modelin karar mekanizması yorumlanmıştır.
+
+4. BULGULAR VE ANALİZ
+
+4.1 Gelir ve Dağılım Yapısı
+Öğrenci gelirlerinin ortalaması 1020 birim, medyanı ise 1021 birim olarak hesaplanmıştır. Bu durum, gelir dağılımının simetrik olduğunu ve veri setinde anlamlı bir uç değer bulunmadığını göstermektedir. Finansal desteklerin yaygınlığı, öğrencilerin gerçek ekonomik kapasitesinin yalnızca gelir üzerinden değil, efektif gelir üzerinden değerlendirilmesi gerektiğini ortaya koymuştur.
+
+4.2 Harcama Yapısı ve Sabit Giderler
+Öğrencilerin toplam harcamalarının %38,5’ini barınma, %14’ünü ise gıda giderleri oluşturmaktadır. Temel ihtiyaçların toplam harcama içindeki payı %52,5 seviyesindedir. Buna karşın eğlence (%4,7) ve kişisel bakım (%3,4) gibi keyfi harcamaların payı oldukça düşüktür. Teknoloji ve eğitim materyallerine ayrılan yaklaşık %19,6’lık pay, öğrencilerin harcamalarını üretken alanlara yönlendirdiğini göstermektedir.
+
+4.3 Gelir ve Harcama İlişkisi (Segmentasyon Analizi)
+Segmentasyon sonuçları, öğrenci ekonomisine ilişkin en kritik bulguyu ortaya koymuştur: Harcama seviyeleri, gelir segmentlerinden bağımsız olarak sabit bir seyir izlemektedir. Yüksek gelir segmentindeki harcama ortalaması (~2061) ile düşük gelir segmentindeki harcama ortalaması (~2074) arasındaki farkın ihmal edilebilir düzeyde olması, tüketimin gelir odaklı değil, ihtiyaç odaklı olduğunu güçlü şekilde göstermektedir.
+
+4.4 Finansal Risk ve Akademik Seviye Etkisi
+Düşük gelirli öğrencilerin harcama/gelir oranının 2.04 seviyesinde olması, bu grubun ciddi bir finansal baskı altında olduğunu ve gelirlerinin yaklaşık iki katı kadar harcama yaptığını göstermektedir. Akademik ilerleme ile finansal durum arasında doğrusal bir ilişki saptanmamıştır; birinci sınıf öğrencileri en yüksek efektif gelire sahipken, ikinci sınıf öğrencilerinin finansal açıdan en hassas segmenti oluşturduğu gözlemlenmiştir.
+
+4.5 Makine Öğrenmesi Bulguları
+Lineer regresyon modeli düşük performans (R² ≈ 0.04) göstermiştir. Buna karşılık Random Forest modeli R² ≈ 0.46 ile daha başarılı sonuçlar üretmiştir. Bu durum, harcama davranışının lineer bir yapıya sahip olmadığını, aksine nonlineer ve kompleks bir ilişki yapısı içerdiğini ortaya koymaktadır.
+Segment değişkenlerinin modele dahil edilmesi performansı artırmamış, hatta sınırlı ölçüde düşürmüştür. Bu durum, modelin segmentasyonu zaten ham veriden öğrenebildiğini göstermektedir.
+
+4.6 Feature Importance Analizi
+Random Forest modeli, harcama tahmininde en önemli değişkenlerin harcama dağılımı oranları (özellikle housing_ratio) olduğunu göstermiştir. Gelir ve finansal destek değişkenlerinin göreli önemi daha düşük kalmıştır.
+Bu bulgu, toplam harcama düzeyinin gelirden ziyade harcama kompozisyonu tarafından şekillendiğini ortaya koymaktadır.
+
+4.7 SHAP Analizi (Model Açıklanabilirliği)
+SHAP analizi, modelin karar mekanizmasını detaylı şekilde ortaya koymuştur. En önemli değişkenler arasında tuition, monthly_income ve effective_income yer almakla birlikte, bu değişkenlerin etkilerinin tutarlı olmadığı gözlemlenmiştir.
+Aynı gelir seviyesine sahip bireylerin farklı yönlerde etki üretmesi, harcama davranışının deterministik olmadığını açıkça göstermektedir. Demografik değişkenlerin model üzerindeki etkisi ise oldukça sınırlı kalmıştır.
+
+5. TARTIŞMA VE DEĞERLENDİRME
+Elde edilen bulgular, üniversite öğrencisi ekonomisinin “kısıtlar altında yönetim” modeliyle çalıştığını ortaya koymaktadır. Harcama davranışını belirleyen temel unsur gelir artışı değil, kaçınılmaz yaşam maliyetleridir. Ödeme yöntemlerinin ve okul ücretinin günlük harcama davranışları üzerinde anlamlı bir etkisi bulunmamaktadır.
+Makine öğrenmesi ve SHAP analizleri birlikte değerlendirildiğinde, harcama davranışının tek bir değişkenle açıklanamadığı ve çok boyutlu bir yapı sergilediği görülmektedir.
+
+6. SONUÇ
+Analiz süreci sonunda ulaşılan temel sonuçlar aşağıda özetlenmiştir:
+•	Üniversite öğrencilerinin harcama yapısı, gelirden bağımsız olarak temel ihtiyaçlar ve sabit bütçe kısıtları tarafından belirlenmektedir.
+•	Öğrenci ekonomisi, harcamaların esnek olmadığı ve sistemin sabit maliyetler üzerine kurulu olduğu bir yapı sergilemektedir.
+•	Akademik yıl ilerledikçe gelir yapısında dalgalanmalar gözlemlense de, bu durum tüketim seviyesini anlamlı ölçüde değiştirmemektedir.
+•	Düşük gelir segmentindeki öğrencilerin finansal sürdürülebilirliği risk altındadır.
+•	Harcama davranışı lineer modellerle açıklanamamakta olup, nonlineer ve davranışsal bir yapı sergilemektedir.
+
